@@ -1,7 +1,7 @@
 {
-  "name": "Pushpa Payroll Hub V5",
-  "short_name": "Payroll",
-  "description": "Personal payroll, reports, analytics, calendar, PDF vault, notifications, profile, and backup.",
+  "name": "Personal Payroll Hub V5.2",
+  "short_name": "Payroll Hub",
+  "description": "Personal payroll tracker with dynamic employee and company branding.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",

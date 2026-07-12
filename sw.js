@@ -1,9 +1,9 @@
-const CACHE_NAME = "pushpa-payroll-hub-v5-2026-07-10";
+const CACHE_NAME = "payroll-hub-v5-2-2026-07-11";
 const APP_FILES = [
   "./",
   "./index.html",
-  "./styles.css?v=5.0.0",
-  "./js/main.js?v=5.0.0",
+  "./styles.css?v=5.2.0",
+  "./js/main.js?v=5.2.0",
   "./js/storage.js",
   "./js/charts.js",
   "./manifest.webmanifest",

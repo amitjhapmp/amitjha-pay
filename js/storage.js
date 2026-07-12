@@ -1,11 +1,17 @@
 
-export const APP_VERSION = "5.0.0";
+export const APP_VERSION = "5.2.0";
 export const STORAGE_KEY = "pushpaPayrollHubV5";
 export const PDF_DB = "pushpaPayrollHubV5Vault";
 export const PDF_STORE = "pdfs";
 
 export function round2(value){
   return Math.round((Number(value) + Number.EPSILON) * 100) / 100;
+}
+
+function shiftedDate(dateValue, days){
+  const date = new Date(`${dateValue}T12:00:00`);
+  date.setDate(date.getDate() + days);
+  return date.toISOString().slice(0, 10);
 }
 
 export const initialRecords = [
@@ -31,7 +37,9 @@ export const initialRecords = [
   federal: row[2],
   medicare: row[3],
   social: row[4],
-  net: round2(row[1] - row[2] - row[3] - row[4])
+  net: round2(row[1] - row[2] - row[3] - row[4]),
+  periodStart: shiftedDate(row[0], -11),
+  periodEnd: shiftedDate(row[0], -5)
 }));
 
 export function defaultState(){
@@ -62,7 +70,13 @@ export function loadState(){
 
     const merged = defaultState();
     merged.profile = {...merged.profile, ...(saved.profile || {})};
-    merged.records = Array.isArray(saved.records) ? saved.records : merged.records;
+    merged.records = Array.isArray(saved.records)
+      ? saved.records.map(record => ({
+          ...record,
+          periodStart: record.periodStart || shiftedDate(record.payDate, -11),
+          periodEnd: record.periodEnd || shiftedDate(record.payDate, -5)
+        }))
+      : merged.records;
     merged.theme = saved.theme || merged.theme;
     merged.notifications = {...merged.notifications, ...(saved.notifications || {})};
     return merged;

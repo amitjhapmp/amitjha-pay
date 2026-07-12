@@ -1,4 +1,4 @@
-# Pushpa Payroll Hub V5.0
+# Personal Payroll Hub V5.2
 
 Version 5.0 was rebuilt from scratch with separate modules.
 
@@ -36,3 +36,22 @@ GitHub deployment
 Notification limitation
 
 GitHub Pages cannot provide server-side push notifications while the app is completely closed. Reminders are evaluated while the app is open or active.
+
+
+Version 5.1 changes
+
+- Added Pay Period Start to Payroll Entry
+- Added Pay Period End to Payroll Entry
+- Pay period dates auto-fill from Pay Date
+- Pay period dates remain editable before saving
+- Existing records are migrated automatically
+- Payroll table and CSV exports use saved pay period dates
+
+
+Version 5.2 changes
+
+- Sidebar company name syncs with Profile & Settings
+- Sidebar employee name syncs with Profile & Settings
+- Sidebar logo initial updates from the company name
+- Browser tab title updates from the employee name
+- Branding updates immediately after saving the profile

@@ -9,16 +9,16 @@
   <title>Pushpa Payroll Hub</title>
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="apple-touch-icon" href="assets/icon-192.png">
-  <link rel="stylesheet" href="styles.css?v=5.0.0">
+  <link rel="stylesheet" href="styles.css?v=5.2.0">
 </head>
 <body>
   <div id="app" class="app-shell">
     <aside id="sidebar" class="sidebar">
       <div class="brand">
-        <div class="brand-logo">N</div>
+        <div id="brandLogo" class="brand-logo">N</div>
         <div>
-          <strong>Natera</strong>
-          <span>Pushpa Payroll Hub</span>
+          <strong id="brandCompany">Natera</strong>
+          <span id="brandEmployee">Kumari Pushpa Rani</span>
         </div>
       </div>
 
@@ -107,6 +107,17 @@
               <label>Pay date
                 <input id="payDate" type="date">
               </label>
+
+              <div class="form-grid">
+                <label>Pay Period Start
+                  <input id="periodStart" type="date">
+                </label>
+                <label>Pay Period End
+                  <input id="periodEnd" type="date">
+                </label>
+              </div>
+
+              <div class="info-box">Pay Period Start and End fill automatically from the Pay Date. You can edit either date before saving.</div>
 
               <div class="form-grid">
                 <label>Gross Pay
@@ -336,7 +347,7 @@
               <span class="eyebrow">Application</span>
               <h3>Version and storage</h3>
               <p class="helper">The app works offline after the first successful visit.</p>
-              <strong id="versionText">Version 5.0.0</strong>
+              <strong id="versionText">Version 5.2.0</strong>
             </article>
 
             <article class="card panel danger-panel">
@@ -358,6 +369,6 @@
 
   <div id="toast" class="toast"></div>
 
-  <script type="module" src="js/main.js?v=5.0.0"></script>
+  <script type="module" src="js/main.js?v=5.2.0"></script>
 </body>
 </html>

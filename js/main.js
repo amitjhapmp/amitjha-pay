@@ -153,12 +153,23 @@ function showView(viewName){
   if(viewName !== "payroll") renderAll();
 }
 
+function autoFillPayPeriod(){
+  const payDate = $("payDate").value;
+  if(!payDate){
+    $("periodStart").value = "";
+    $("periodEnd").value = "";
+    return;
+  }
+  $("periodStart").value = shiftDate(payDate, -11);
+  $("periodEnd").value = shiftDate(payDate, -5);
+}
+
 function calculateNet(){
   $("net").value = round2(numberValue("gross") - numberValue("federal") - numberValue("medicare") - numberValue("social")).toFixed(2);
 }
 
 function clearPaycheckForm(){
-  ["payDate", "gross", "federal", "medicare", "social", "editIndex"].forEach(id => $(id).value = "");
+  ["payDate", "periodStart", "periodEnd", "gross", "federal", "medicare", "social", "editIndex"].forEach(id => $(id).value = "");
   $("net").value = "0.00";
   $("payrollFormTitle").textContent = "Add paycheck";
 }
@@ -173,6 +184,8 @@ function savePaycheck(){
 
   const record = {
     payDate: $("payDate").value,
+    periodStart: $("periodStart").value || shiftDate($("payDate").value, -11),
+    periodEnd: $("periodEnd").value || shiftDate($("payDate").value, -5),
     gross: numberValue("gross"),
     federal: numberValue("federal"),
     medicare: numberValue("medicare"),
@@ -197,6 +210,8 @@ window.editPaycheck = index => {
   if(!record) return;
 
   $("payDate").value = record.payDate;
+  $("periodStart").value = record.periodStart || shiftDate(record.payDate, -11);
+  $("periodEnd").value = record.periodEnd || shiftDate(record.payDate, -5);
   $("gross").value = record.gross;
   $("federal").value = record.federal;
   $("medicare").value = record.medicare;
@@ -223,7 +238,7 @@ function payrollTable(records, includeActions = true){
   const rows = records.map(record => {
     const index = state.records.indexOf(record);
     return `<tr>
-      <td><strong>${dateText(record.payDate)}</strong><br><span>${dateText(shiftDate(record.payDate, -11))} to ${dateText(shiftDate(record.payDate, -5))}</span></td>
+      <td><strong>${dateText(record.payDate)}</strong><br><span>${dateText(record.periodStart || shiftDate(record.payDate, -11))} to ${dateText(record.periodEnd || shiftDate(record.payDate, -5))}</span></td>
       <td class="amount">${money(record.gross)}</td>
       <td class="amount">${money(record.federal)}</td>
       <td class="amount">${money(record.medicare)}</td>
@@ -259,6 +274,17 @@ function monthlyTotals(year){
     const month = String(index + 1).padStart(2, "0");
     return totals(state.records.filter(record => record.payDate.startsWith(`${year}-${month}`)));
   });
+}
+
+function updateBranding(){
+  const employeeName = state.profile.name || "Employee";
+  const companyName = state.profile.company || "Company";
+  const companyInitial = companyName.trim().charAt(0).toUpperCase() || "P";
+
+  $("brandCompany").textContent = companyName;
+  $("brandEmployee").textContent = employeeName;
+  $("brandLogo").textContent = companyInitial;
+  document.title = `${employeeName} Payroll Hub`;
 }
 
 function renderDashboard(){
@@ -458,8 +484,8 @@ function exportCsv(records = state.records, filename = "Payroll_YTD_Report.csv")
     rows.push([
       index + 1,
       record.payDate,
-      shiftDate(record.payDate, -11),
-      shiftDate(record.payDate, -5),
+      record.periodStart || shiftDate(record.payDate, -11),
+      record.periodEnd || shiftDate(record.payDate, -5),
       record.gross,
       grossYtd,
       record.federal,
@@ -795,9 +821,12 @@ async function resetEverything(){
 function renderAll(){
   state.records.forEach(record => {
     record.net = round2(Number(record.gross) - Number(record.federal) - Number(record.medicare) - Number(record.social));
+    record.periodStart = record.periodStart || shiftDate(record.payDate, -11);
+    record.periodEnd = record.periodEnd || shiftDate(record.payDate, -5);
   });
 
   persist();
+  updateBranding();
   renderDashboard();
   renderPayrollTables();
   renderReports();
@@ -819,6 +848,7 @@ function bindEvents(){
   document.querySelectorAll("[data-view-link]").forEach(button => button.addEventListener("click", () => showView(button.dataset.viewLink)));
 
   ["gross","federal","medicare","social"].forEach(id => $(id).addEventListener("input", calculateNet));
+  $("payDate").addEventListener("change", autoFillPayPeriod);
 
   $("savePaycheck").addEventListener("click", savePaycheck);
   $("clearPaycheck").addEventListener("click", clearPaycheckForm);
