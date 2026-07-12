@@ -1,5 +1,5 @@
 
-export const APP_VERSION = "5.2.0";
+export const APP_VERSION = "5.2.1";
 export const STORAGE_KEY = "pushpaPayrollHubV5";
 export const PDF_DB = "pushpaPayrollHubV5Vault";
 export const PDF_STORE = "pdfs";

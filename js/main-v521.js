@@ -284,7 +284,7 @@ function updateBranding(){
   $("brandCompany").textContent = companyName;
   $("brandEmployee").textContent = employeeName;
   $("brandLogo").textContent = companyInitial;
-  document.title = `${employeeName} Payroll Hub`;
+  document.title = `${employeeName} Payroll Hub v5.2.1`;
 }
 
 function renderDashboard(){
@@ -972,3 +972,4 @@ function initialize(){
 }
 
 initialize();
+window.setTimeout(updateBranding, 50);

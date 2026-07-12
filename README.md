@@ -1,4 +1,4 @@
-# Personal Payroll Hub V5.2
+# Personal Payroll Hub V5.2.1
 
 Version 5.0 was rebuilt from scratch with separate modules.
 
@@ -55,3 +55,11 @@ Version 5.2 changes
 - Sidebar logo initial updates from the company name
 - Browser tab title updates from the employee name
 - Branding updates immediately after saving the profile
+
+
+Version 5.2.1 cacheproof fix
+
+- Renamed CSS and main JavaScript files to bypass old browser and service-worker caches
+- Default sidebar labels are now generic until the saved profile loads
+- Sidebar branding is re-applied after startup
+- Browser tab displays v5.2.1 for easy verification
